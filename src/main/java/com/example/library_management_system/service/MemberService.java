@@ -69,7 +69,8 @@ public class MemberService {
         if (hasActiveLoans) {
             throw new BusinessException("Cannot delete member with active loans");
         }
-        memberRepository.deleteById(id);
+        member.setIsDeleted(true);
+        memberRepository.save(member);
     }
 
     public List<MemberResponse> getMembersWithActiveLoans() {

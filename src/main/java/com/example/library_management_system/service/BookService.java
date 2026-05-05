@@ -76,10 +76,10 @@ public class BookService {
     }
 
     public void deleteBook(Long id) {
-        if (!bookRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Book not found with id: " + id);
-        }
-        bookRepository.deleteById(id);
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
+        book.setIsDeleted(true);
+        bookRepository.save(book);
     }
 
     public List<GenreStatResponse> getGenreStatistics() {
